@@ -15,7 +15,7 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  var url = null;
+  var url;
 
   final TextEditingController _mycontroller = new TextEditingController();
   Random random = new Random();
@@ -162,6 +162,7 @@ class _MainState extends State<Main> {
                         //   data: link1,
                         //)),
                         // ),
+                        
                       },
                       style: ElevatedButton.styleFrom(
                         side: BorderSide(width: 1.0, color: Colors.black),

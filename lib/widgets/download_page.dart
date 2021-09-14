@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:json_insta/colors.dart';
+import 'package:json_insta/constraints/colors.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 //Old Method Now its unusefull

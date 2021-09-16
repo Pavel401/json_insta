@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+//import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Main extends StatefulWidget {
@@ -35,16 +36,16 @@ class _MainState extends State<Main> {
             .get(link1, options: Options(responseType: ResponseType.bytes));
         final result = await ImageGallerySaver.saveImage(
             Uint8List.fromList(response.data),
-            quality: 60,
+           quality: 60,
             name: randomNumber.toString());
         print(result);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+         SnackBar(
             content: Text(
-              'File is downloaded in +$result',
-              style: TextStyle(color: Colors.white),
+            'File is downloaded in +$result',
+             style: TextStyle(color: Colors.white),
             ),
-          ),
+         ),
         );
       } else {
         print('PERMISSION NOT GRANTED');

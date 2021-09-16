@@ -31,27 +31,36 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+      int _selectedIndex = 1;
+
+  @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
     List<String> _navmenu = [
       "IMAGE",
       "REELS",
       "IGTV",
     ];
-    List<Widget> _widgets = [
+    List<Widget> _widgets = <Widget>[
       Main(),
       reels(),
       Main(),
     ];
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: Text('Insta-Saver'),
         leading: Icon(Icons.menu),
+        
+
         actions: [
           //Icon(Icons.more_vert),
           PopupMenuButton<int>(
@@ -70,6 +79,7 @@ class Home extends StatelessWidget {
       backgroundColor: Colors.blueAccent,
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.blueAccent,
+        
         items: <Widget>[
           Icon(
             Icons.gradient_outlined,
@@ -89,7 +99,10 @@ class Home extends StatelessWidget {
         ],
         onTap: (index) {
           //Handle button tap
-          _selectedIndex = index;
+          setState(() {
+                      _selectedIndex = index;
+
+          });
         },
       ),
       body: _widgets.elementAt(_selectedIndex),

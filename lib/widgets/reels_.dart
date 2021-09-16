@@ -1,3 +1,4 @@
+  
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
@@ -6,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:path_provider/path_provider.dart';
 class reels extends StatefulWidget {
   const reels({Key? key}) : super(key: key);
 
@@ -16,6 +17,7 @@ class reels extends StatefulWidget {
 
 class _reelsState extends State<reels> {
   var url;
+  var video_url;
 
   final TextEditingController _mycontroller = new TextEditingController();
   Random random = new Random();
@@ -31,13 +33,14 @@ class _reelsState extends State<reels> {
       var status = await Permission.storage.request();
       if (status.isGranted) {
         print('PERMISSION GRANTED');
-        var response = await Dio()
-            .get(link1, options: Options(responseType: ResponseType.bytes));
-        final result = await ImageGallerySaver.saveImage(
-            Uint8List.fromList(response.data),
-            quality: 60,
-            name: randomNumber.toString());
-        print(result);
+
+    
+    var appDocDir = await getTemporaryDirectory();
+    String savePath = appDocDir.path + "/temp.mp4";
+    await Dio().download(video_url, savePath);
+    final result = await ImageGallerySaver.saveFile(savePath);
+    print(result);
+ 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -66,16 +69,12 @@ class _reelsState extends State<reels> {
       print(response.body);
       var graphql = jsonData['graphql'];
       var shortcodeMedia = graphql['shortcode_media'];
-      var image_url = shortcodeMedia['display_resources'];
-      print(image_url);
-
+      video_url=shortcodeMedia['video_url'];
+      
+  print(video_url);
       //_TypeError (type 'List<dynamic>' is not a subtype of type 'String')
 
-      print(image_url[0]);
-      var src0 = image_url[2];
-
-      print(src0['src']);
-      link1 = src0['src'];
+     
       download();
       return null;
     }
@@ -142,7 +141,7 @@ class _reelsState extends State<reels> {
                     ),
                     OutlinedButton.icon(
                       icon: Icon(Icons.download_outlined),
-                      label: Text("Download"),
+                      label: Text("Download Reels"),
                       onPressed: () => {
                         print('ok'),
                         // print(_mycontroller.text),

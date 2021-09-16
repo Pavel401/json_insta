@@ -36,7 +36,7 @@ class _MainState extends State<Main> {
             .get(link1, options: Options(responseType: ResponseType.bytes));
         final result = await ImageGallerySaver.saveImage(
             Uint8List.fromList(response.data),
-           quality: 60,
+           quality: 100,
             name: randomNumber.toString());
         print(result);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -143,7 +143,7 @@ class _MainState extends State<Main> {
                     ),
                     OutlinedButton.icon(
                       icon: Icon(Icons.download_outlined),
-                      label: Text("Download"),
+                      label: Text("Download Image"),
                       onPressed: () => {
                         print('ok'),
                         // print(_mycontroller.text),

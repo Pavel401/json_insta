@@ -1,4 +1,3 @@
-  
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
+
 class reels extends StatefulWidget {
   const reels({Key? key}) : super(key: key);
 
@@ -34,13 +34,12 @@ class _reelsState extends State<reels> {
       if (status.isGranted) {
         print('PERMISSION GRANTED');
 
-    
-    var appDocDir = await getTemporaryDirectory();
-    String savePath = appDocDir.path + "/temp.mp4";
-    await Dio().download(video_url, savePath);
-    final result = await ImageGallerySaver.saveFile(savePath);
-    print(result);
- 
+        var appDocDir = await getTemporaryDirectory();
+        String savePath = appDocDir.path + "/temp.mp4";
+        await Dio().download(video_url, savePath);
+        final result = await ImageGallerySaver.saveFile(savePath);
+        print(result);
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -69,12 +68,11 @@ class _reelsState extends State<reels> {
       print(response.body);
       var graphql = jsonData['graphql'];
       var shortcodeMedia = graphql['shortcode_media'];
-      video_url=shortcodeMedia['video_url'];
-      
-  print(video_url);
+      video_url = shortcodeMedia['video_url'];
+
+      print(video_url);
       //_TypeError (type 'List<dynamic>' is not a subtype of type 'String')
 
-     
       download();
       return null;
     }
@@ -161,7 +159,6 @@ class _reelsState extends State<reels> {
                         //   data: link1,
                         //)),
                         // ),
-                        
                       },
                       style: ElevatedButton.styleFrom(
                         side: BorderSide(width: 1.0, color: Colors.black),

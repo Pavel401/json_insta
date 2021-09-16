@@ -1,9 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:json_insta/constraints/colors.dart';
 import 'package:json_insta/widgets/MainPage.dart';
+import 'package:json_insta/widgets/igtv.dart';
 import 'package:json_insta/widgets/reels_.dart';
+import 'package:json_insta/widgets/settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,6 +44,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     List<String> _navmenu = [
       "IMAGE",
       "REELS",
@@ -51,14 +53,15 @@ class _HomeState extends State<Home> {
     List<Widget> _widgets = <Widget>[
       Main(),
       reels(),
-      Main(),
+      igtv(),
+      settings(),
     ];
     
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: Text('Insta-Saver'),
-        leading: Icon(Icons.menu),
+        //leading: Icon(Icons.menu),
         
 
         actions: [
@@ -96,6 +99,12 @@ class _HomeState extends State<Home> {
             size: 30,
             color: Colors.blueAccent,
           ),
+          Icon(
+            Icons.settings,
+            size: 30,
+            color: Colors.blueAccent,
+
+          )
         ],
         onTap: (index) {
           //Handle button tap

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -8,15 +7,16 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-class reels extends StatefulWidget {
-  const reels({Key? key}) : super(key: key);
+class Reels extends StatefulWidget {
+  const Reels({Key? key}) : super(key: key);
 
   @override
-  _reelsState createState() => _reelsState();
+  _ReelsState createState() => _ReelsState();
 }
 
-class _reelsState extends State<reels> {
+class _ReelsState extends State<Reels> {
   var url;
+  // ignore: non_constant_identifier_names
   var video_url;
 
   final TextEditingController _mycontroller = new TextEditingController();
@@ -26,9 +26,9 @@ class _reelsState extends State<reels> {
   Widget build(BuildContext context) {
     // String str= url.replaceAll('utm_source=ig_web_copy_link', '__a=1');
     //String url = _mycontroller.text;
-    String link1 = " ";
+   
     download() async {
-      int randomNumber = random.nextInt(4987536); // from 0 upto 99 included
+      //int randomNumber = random.nextInt(4987536); // from 0 upto 99 included
 
       var status = await Permission.storage.request();
       if (status.isGranted) {

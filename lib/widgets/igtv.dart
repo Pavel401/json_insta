@@ -8,16 +8,17 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
-class igtv extends StatefulWidget {
-  const igtv({Key? key}) : super(key: key);
+class Igtv extends StatefulWidget {
+  const Igtv({Key? key}) : super(key: key);
 
   @override
-  _igtvState createState() => _igtvState();
+  _IgtvState createState() => _IgtvState();
 }
-
-class _igtvState extends State<igtv> {
+  
+class _IgtvState extends State<Igtv> {
   var url;
-  var igtv_url;
+  // ignore: non_constant_identifier_names
+  var Igtv_url;
 
   final TextEditingController _mycontroller = new TextEditingController();
   Random random = new Random();
@@ -28,7 +29,7 @@ class _igtvState extends State<igtv> {
     //String url = _mycontroller.text;
 
     download() async {
-      int randomNumber = random.nextInt(4987536); // from 0 upto 99 included
+     // int randomNumber = random.nextInt(4987536); // from 0 upto 99 included
 
       var status = await Permission.storage.request();
       if (status.isGranted) {
@@ -36,7 +37,7 @@ class _igtvState extends State<igtv> {
 
         var appDocDir = await getTemporaryDirectory();
         String savePath = appDocDir.path + "/temp.mp4";
-        await Dio().download(igtv_url, savePath);
+        await Dio().download(Igtv_url, savePath);
         final result = await ImageGallerySaver.saveFile(savePath);
         print(result);
         AwesomeDialog(
@@ -81,9 +82,9 @@ class _igtvState extends State<igtv> {
       var graphql = jsonData['graphql'];
       if (graphql != null) {
         var shortcodeMedia = graphql['shortcode_media'];
-        igtv_url = shortcodeMedia['video_url'];
+        Igtv_url = shortcodeMedia['video_url'];
 
-        print(igtv_url);
+        print(Igtv_url);
         //_TypeError (type 'List<dynamic>' is not a subtype of type 'String')
 
         download();

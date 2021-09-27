@@ -51,9 +51,9 @@ class _HomeState extends State<Home> {
     ];
     List<Widget> _widgets = <Widget>[
       Main(),
-      reels(),
-      igtv(),
-      settings(),
+      Reels(),
+      Igtv(),
+      Settings(),
     ];
     
     return Scaffold(

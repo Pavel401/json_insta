@@ -92,6 +92,7 @@ class _MainState extends State<Main> {
 
       if (graphql != null) {
         var shortcodeMedia = graphql['shortcode_media'];
+        // ignore: non_constant_identifier_names
         var image_url = shortcodeMedia['display_resources'];
         print(image_url);
 

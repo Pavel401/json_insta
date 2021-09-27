@@ -5,7 +5,6 @@ import 'package:json_insta/widgets/MainPage.dart';
 import 'package:json_insta/widgets/igtv.dart';
 import 'package:json_insta/widgets/reels_.dart';
 import 'package:json_insta/widgets/settings.dart';
-
 void main() {
   runApp(MyApp());
 }
@@ -40,7 +39,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-      int _selectedIndex = 1;
+      int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {

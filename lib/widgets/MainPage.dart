@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 //import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class Main extends StatefulWidget {
   const Main({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class Main extends StatefulWidget {
 
 class _MainState extends State<Main> {
   var url;
+  int flag = 0;
 
   final TextEditingController _mycontroller = new TextEditingController();
   Random random = new Random();
@@ -26,38 +28,59 @@ class _MainState extends State<Main> {
     // String str= url.replaceAll('utm_source=ig_web_copy_link', '__a=1');
     //String url = _mycontroller.text;
     String link1 = " ";
+
     download() async {
       int randomNumber = random.nextInt(4987536); // from 0 upto 99 included
 
       var status = await Permission.storage.request();
       if (status.isGranted) {
         print('PERMISSION GRANTED');
+
+       
         var response = await Dio()
             .get(link1, options: Options(responseType: ResponseType.bytes));
         final result = await ImageGallerySaver.saveImage(
             Uint8List.fromList(response.data),
-           quality: 100,
+            quality: 100,
             name: randomNumber.toString());
+        flag = 1;
         print(result);
-        ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
-            content: Text(
-            'File is downloaded in +$result',
-             style: TextStyle(color: Colors.white),
-            ),
-         ),
-        );
+
+        AwesomeDialog(
+          context: context,
+          //customHeader: Image.asset("assets/icon/icon.png"),
+          dialogType: DialogType.SUCCES,
+          animType: AnimType.BOTTOMSLIDE,
+          title: 'Photo Is Downloaded',
+
+          desc:
+              'File is downloaded in Galary and  Path:/storage/emulated/0/Pictures/',
+          btnOkOnPress: () {},
+        )..show();
       } else {
         print('PERMISSION NOT GRANTED');
+        AwesomeDialog(
+          context: context,
+          //customHeader: Image.asset("assets/icon/icon.png"),
+          dialogType: DialogType.WARNING,
+          animType: AnimType.BOTTOMSLIDE,
+          title: 'Permission Not Granted',
+
+          desc: 'Allow Permission to Continue Using App',
+
+          btnOkOnPress: () {},
+        )..show();
       }
     }
 
     getData() async {
       if (_mycontroller.text.endsWith('utm_medium=copy_link')) {
         url = _mycontroller.text.replaceAll('utm_medium=copy_link', '__a=1');
+        print(url);
       } else if ((_mycontroller.text.endsWith('utm_source=ig_web_copy_link'))) {
         url = _mycontroller.text
             .replaceAll('utm_source=ig_web_copy_link', '__a=1');
+        print(url);
       }
 
       final response = await http.get(
@@ -66,18 +89,34 @@ class _MainState extends State<Main> {
       var jsonData = jsonDecode(response.body);
       print(response.body);
       var graphql = jsonData['graphql'];
-      var shortcodeMedia = graphql['shortcode_media'];
-      var image_url = shortcodeMedia['display_resources'];
-      print(image_url);
 
-      //_TypeError (type 'List<dynamic>' is not a subtype of type 'String')
+      if (graphql != null) {
+        var shortcodeMedia = graphql['shortcode_media'];
+        var image_url = shortcodeMedia['display_resources'];
+        print(image_url);
 
-      print(image_url[0]);
-      var src0 = image_url[2];
+        //_TypeError (type 'List<dynamic>' is not a subtype of type 'String')
 
-      print(src0['src']);
-      link1 = src0['src'];
-      download();
+        print(image_url[0]);
+        var src0 = image_url[2];
+
+        print(src0['src']);
+        link1 = src0['src'];
+        download();
+      } else {
+        AwesomeDialog(
+          context: context,
+          //customHeader: Image.asset("assets/icon/icon.png"),
+          dialogType: DialogType.WARNING,
+          animType: AnimType.BOTTOMSLIDE,
+          title: 'Error Private Post',
+
+          desc: 'This Photo Link Is Private ,Try with a public post instead',
+
+          btnOkOnPress: () {},
+        )..show();
+      }
+
       return null;
     }
 
@@ -145,6 +184,7 @@ class _MainState extends State<Main> {
                       icon: Icon(Icons.download_outlined),
                       label: Text("Download Image"),
                       onPressed: () => {
+                        flag = 0,
                         print('ok'),
                         // print(_mycontroller.text),
                         //ScaffoldMessenger.of(context).showSnackBar(
@@ -163,7 +203,6 @@ class _MainState extends State<Main> {
                         //   data: link1,
                         //)),
                         // ),
-                        
                       },
                       style: ElevatedButton.styleFrom(
                         side: BorderSide(width: 1.0, color: Colors.black),

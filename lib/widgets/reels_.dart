@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
-
+import 'package:awesome_dialog/awesome_dialog.dart';
 class reels extends StatefulWidget {
   const reels({Key? key}) : super(key: key);
 
@@ -39,17 +39,34 @@ class _reelsState extends State<reels> {
         await Dio().download(video_url, savePath);
         final result = await ImageGallerySaver.saveFile(savePath);
         print(result);
+       
+        AwesomeDialog(
+                  context: context,
+                  //customHeader: Image.asset("assets/icon/icon.png"),
+                  dialogType: DialogType.SUCCES,  
+                  animType: AnimType.BOTTOMSLIDE,
+                  title: 'Reel Is Downloaded',
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'File is downloaded in +$result',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        );
+                  desc:
+                      'File is downloaded in Galary and Path $result ',
+                  btnOkOnPress: () {},
+                )..show();
+
+       
       } else {
         print('PERMISSION NOT GRANTED');
+        AwesomeDialog(
+                  context: context,
+                  //customHeader: Image.asset("assets/icon/icon.png"),
+                  dialogType: DialogType.WARNING,
+                  animType: AnimType.BOTTOMSLIDE,
+                  title: 'Permission Not Granted',
+
+                  desc:
+                      'Allow Permission to Continue Using App',
+                      
+                  btnOkOnPress: () {},
+                )..show();
       }
     }
 
@@ -67,13 +84,30 @@ class _reelsState extends State<reels> {
       var jsonData = jsonDecode(response.body);
       print(response.body);
       var graphql = jsonData['graphql'];
-      var shortcodeMedia = graphql['shortcode_media'];
+      if(graphql != null)
+      {
+var shortcodeMedia = graphql['shortcode_media'];
       video_url = shortcodeMedia['video_url'];
 
       print(video_url);
       //_TypeError (type 'List<dynamic>' is not a subtype of type 'String')
 
       download();
+      }else {
+        AwesomeDialog(
+                  context: context,
+                  //customHeader: Image.asset("assets/icon/icon.png"),
+                  dialogType: DialogType.WARNING,
+                  animType: AnimType.BOTTOMSLIDE,
+                  title: 'Error Private Post',
+
+                  desc:
+                      'This Reel Link Is Private ,Try with a public post instead',
+                      
+                  btnOkOnPress: () {},
+                )..show();
+      }
+      
       return null;
     }
 

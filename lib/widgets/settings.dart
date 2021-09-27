@@ -50,7 +50,7 @@ class _settingsState extends State<settings> {
                   title: 'Insta-Saver',
 
                   desc:
-                      'Insta-Saver will help you to download reels,photos,igtv posts using post link',
+                      'Insta-Saver will help you to download reels,photos,igtv posts using post link VERSION- 1.0_BETA',
 
                   btnOkOnPress: () {},
                 )..show();
